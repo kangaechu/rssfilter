@@ -17,6 +17,7 @@ type RSSEntry struct {
 	Link        string    `json:"link"`
 	Published   time.Time `json:"published"`
 	Categories  []string  `json:"categories,omitempty"`
+	Retrieved   time.Time `json:"retrieved,omitempty"`
 }
 
 // Import は指定されたURLからRSSを生成します。
@@ -27,6 +28,7 @@ func Import(URL string) (*RSS, error) {
 		return nil, err
 	}
 	var entries []RSSEntry
+	retrieved := time.Now()
 	for _, item := range feeds.Items {
 		published, _ := time.Parse(time.RFC3339, item.Published)
 		var entry = RSSEntry{
@@ -35,6 +37,7 @@ func Import(URL string) (*RSS, error) {
 			Link:        item.Link,
 			Published:   published,
 			Categories:  item.Categories,
+			Retrieved:   retrieved,
 		}
 		entries = append(entries, entry)
 	}
