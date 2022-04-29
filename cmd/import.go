@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/kangaechu/rssfilter/rssfilter"
 	"github.com/spf13/cobra"
 	"log"
@@ -15,12 +14,18 @@ var importCmd = &cobra.Command{
 	Short: "Retrieve RSS and store",
 	Long:  `Retrieve RSS and store`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("import called")
+
+		// URLをもとにRSSを生成
 		rss, err := rssfilter.Import(RSSURL)
 		if err != nil {
 			log.Fatal("failed to Parse Rss", RSSURL)
 		}
-		fmt.Println(rss.Entries)
+		// 保存
+		var storageJSON = rssfilter.StorageJSON{FileName: "hoge.json"}
+		err = storageJSON.Store(rss)
+		if err != nil {
+			log.Fatal("failed to save json", RSSURL)
+		}
 	},
 }
 
