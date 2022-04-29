@@ -18,13 +18,13 @@ var importCmd = &cobra.Command{
 		// URLをもとにRSSを生成
 		rss, err := rssfilter.Import(RSSURL)
 		if err != nil {
-			log.Fatal("failed to Parse Rss", RSSURL)
+			log.Fatal("failed to parse rss ", RSSURL, err)
 		}
 		// 保存
 		var storageJSON = rssfilter.StorageJSON{FileName: "hoge.json"}
-		err = storageJSON.Store(rss)
+		err = storageJSON.StoreUnique(rss)
 		if err != nil {
-			log.Fatal("failed to save json", RSSURL)
+			log.Fatal("failed to save json ", RSSURL, err)
 		}
 	},
 }
