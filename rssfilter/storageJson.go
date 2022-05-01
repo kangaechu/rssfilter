@@ -11,24 +11,32 @@ type StorageJSON struct {
 	FileName string
 }
 
-// StoreUnique はRSSと既に保存済みのファイルを比較し、新たに追加されたものを追記します
-func (j StorageJSON) StoreUnique(rss *RSS) error {
-
-	var oldRss *[]RSSEntry
+// Load は保存済みのファイルをロードします
+func (j StorageJSON) Load() (*RSS, error) {
+	var rss RSS
 	if f, err := os.Stat(j.FileName); os.IsNotExist(err) || f.IsDir() {
 	} else {
 		// ファイルが存在するときは読み込む
 		oldRssText, err := ioutil.ReadFile(j.FileName)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		err = json.Unmarshal(oldRssText, &oldRss)
+		err = json.Unmarshal(oldRssText, &rss.Entries)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	}
+	return &rss, nil
+}
 
-	mergedRss := merge(oldRss, rss.Entries)
+// StoreUnique はRSSと既に保存済みのファイルを比較し、新たに追加されたものを追記します
+func (j StorageJSON) StoreUnique(rss *RSS) error {
+	oldRss, err := j.Load()
+	if err != nil {
+		return err
+	}
+
+	mergedRss := merge(oldRss.Entries, rss.Entries)
 	newJson, err := json.Marshal(mergedRss)
 	if err != nil {
 		return err
