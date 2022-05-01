@@ -1,7 +1,12 @@
 package rssfilter
 
 import (
+	"fmt"
+	"github.com/ikawaha/kagome-dict/ipa"
+	"github.com/ikawaha/kagome/v2/filter"
+	"github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/mmcdole/gofeed"
+	"net/url"
 	"time"
 )
 
@@ -44,4 +49,58 @@ func Import(URL string) (*RSS, error) {
 	}
 	rss := RSS{&entries}
 	return &rss, nil
+}
+
+// GenerateLearnData はRSSEntryから分類データを生成します。
+func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
+
+	var words []string
+	t, err := tokenizer.New(ipa.Dict(), tokenizer.OmitBosEos())
+	if err != nil {
+		return "", nil, err
+	}
+	posFilter := filter.NewPOSFilter([]filter.POS{{"名詞"}, {"形容詞"}}...)
+	// Title
+	tokens := t.Tokenize(e.Title)
+	posFilter.Keep(&tokens)
+	for _, token := range tokens {
+		words = append(words, token.Surface)
+	}
+
+	// Description
+	tokens = t.Tokenize(e.Description)
+	posFilter.Keep(&tokens)
+	for _, token := range tokens {
+		words = append(words, token.Surface)
+	}
+
+	// URL(ドメイン名）
+	parsedURL, err := url.Parse(e.Link)
+	if err != nil {
+		fmt.Println("error while parsing URL: ", e.Link, err)
+	} else {
+		words = append(words, parsedURL.Host)
+	}
+
+	// タグ
+	for _, category := range e.Categories {
+		words = append(words, "category:"+category)
+	}
+
+	uniqueWords := SliceUnique(words)
+	return e.Reputation, &uniqueWords, nil
+}
+
+// SliceUnique はリストの重複を取り除きます
+func SliceUnique(target []string) (unique []string) {
+	m := map[string]bool{}
+
+	for _, v := range target {
+		if !m[v] {
+			m[v] = true
+			unique = append(unique, v)
+		}
+	}
+
+	return unique
 }
