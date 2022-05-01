@@ -7,6 +7,7 @@ import (
 )
 
 var RSSURL string
+var RSSJSON string
 
 // importCmd represents the import command
 var importCmd = &cobra.Command{
@@ -21,10 +22,10 @@ var importCmd = &cobra.Command{
 			log.Fatal("failed to parse rss ", RSSURL, err)
 		}
 		// 保存
-		var storageJSON = rssfilter.StorageJSON{FileName: "hoge.json"}
+		var storageJSON = rssfilter.StorageJSON{FileName: RSSJSON}
 		err = storageJSON.StoreUnique(rss)
 		if err != nil {
-			log.Fatal("failed to save json ", RSSURL, err)
+			log.Fatal("failed to save json ", RSSJSON, err)
 		}
 	},
 }
@@ -35,5 +36,11 @@ func init() {
 	err := importCmd.MarkFlagRequired("url")
 	if err != nil {
 		log.Fatal("specify url")
+	}
+
+	importCmd.Flags().StringVarP(&RSSJSON, "feed", "f", "", "feed JSON file name")
+	err = importCmd.MarkFlagRequired("feed")
+	if err != nil {
+		log.Fatal("specify feed JSON file name")
 	}
 }

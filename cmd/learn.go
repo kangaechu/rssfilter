@@ -6,16 +6,19 @@ import (
 	"log"
 )
 
+var learnRSSJSON string
+var learnModel string
+
 // learnCmd represents the learn command
 var learnCmd = &cobra.Command{
 	Use:   "learn",
 	Short: "create / update classifier",
 	Long:  `create / update classifier`,
 	Run: func(cmd *cobra.Command, args []string) {
-		storageJSON := rssfilter.StorageJSON{FileName: "hoge.json"}
+		storageJSON := rssfilter.StorageJSON{FileName: learnRSSJSON}
 		rss, err := storageJSON.Load()
 		if err != nil {
-			log.Fatal("failed to load RSS JSON ", err)
+			log.Fatal("failed to load RSS JSON ", learnRSSJSON, err)
 		}
 
 		model, err := rssfilter.GenerateBayesModel(*rss)
@@ -23,23 +26,24 @@ var learnCmd = &cobra.Command{
 			log.Fatal("failed to generate model", err)
 		}
 
-		err = model.Store("model")
+		err = model.Store(learnModel)
 		if err != nil {
-			log.Fatal("failed to store model", err)
+			log.Fatal("failed to store model", learnModel, err)
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(learnCmd)
+	learnCmd.Flags().StringVarP(&learnRSSJSON, "feed", "f", "", "feed JSON file name")
+	err := learnCmd.MarkFlagRequired("feed")
+	if err != nil {
+		log.Fatal("specify feed JSON file name")
+	}
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// learnCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// learnCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	learnCmd.Flags().StringVarP(&learnModel, "model", "m", "", "model file name")
+	err = learnCmd.MarkFlagRequired("model")
+	if err != nil {
+		log.Fatal("specify model file name")
+	}
 }
