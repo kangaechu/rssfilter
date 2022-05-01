@@ -18,6 +18,7 @@ type RSSEntry struct {
 	Published   time.Time `json:"published"`
 	Categories  []string  `json:"categories,omitempty"`
 	Retrieved   time.Time `json:"retrieved,omitempty"`
+	Reputation  string    `json:"reputation,omitempty"`
 }
 
 // Import は指定されたURLからRSSを生成します。

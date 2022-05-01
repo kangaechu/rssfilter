@@ -28,25 +28,8 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 		}
 	}
 
-	// 保存済みのRSSにないものは追加
-	if oldRss == nil {
-		oldRss = rss.Entries
-	} else {
-		for _, newEntry := range *rss.Entries {
-			foundOldEntry := false
-			for _, oldEntry := range *oldRss {
-				if newEntry.Link == oldEntry.Link {
-					foundOldEntry = true
-					break
-				}
-			}
-			if !foundOldEntry {
-				*oldRss = append(*oldRss, newEntry)
-			}
-		}
-	}
-
-	newJson, err := json.Marshal(oldRss)
+	mergedRss := merge(oldRss, rss.Entries)
+	newJson, err := json.Marshal(mergedRss)
 	if err != nil {
 		return err
 	}
@@ -56,4 +39,28 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 		return err
 	}
 	return nil
+}
+
+// merge はLinkをキーにして2つのリストをマージします
+func merge(rss1, rss2 *[]RSSEntry) *[]RSSEntry {
+	if rss1 == nil {
+		return rss2
+	}
+	if rss2 == nil {
+		return rss1
+	}
+	mergedRss := rss1
+	for _, entry2 := range *rss2 {
+		found := false
+		for _, entry1 := range *rss1 {
+			if entry2.Link == entry1.Link {
+				found = true
+				break
+			}
+		}
+		if !found {
+			*mergedRss = append(*mergedRss, entry2)
+		}
+	}
+	return mergedRss
 }
