@@ -1,6 +1,8 @@
 package rssfilter
 
-import "github.com/navossoc/bayesian"
+import (
+	"github.com/navossoc/bayesian"
+)
 
 // BayesClassifier はナイーブベイズのモデルです
 type BayesClassifier struct {
@@ -13,6 +15,8 @@ const (
 	Bad  bayesian.Class = "Bad"
 )
 
+var classes = []bayesian.Class{Good, Bad}
+
 // Store はナイーブベイズのモデルを保存します
 func (b BayesClassifier) Store(filename string) error {
 	err := b.Classifier.WriteToFile(filename)
@@ -22,10 +26,26 @@ func (b BayesClassifier) Store(filename string) error {
 	return nil
 }
 
+func (b BayesClassifier) Classify(words *[]string) (string, error) {
+	_, inx, _, err := b.Classifier.SafeProbScores(*words)
+	if err != nil {
+		return "", err
+	}
+	var cl string
+	if inx == 0 {
+		cl = "Good"
+	} else if inx == 1 {
+		cl = "Bad"
+	} else {
+		cl = "Undefined"
+	}
+	return cl, nil
+}
+
 // GenerateBayesModel はRSSからナイーブベイズのモデルを生成します。
 func GenerateBayesModel(r RSS) (*BayesClassifier, error) {
 	var bayesClassifier BayesClassifier
-	bayesClassifier.Classifier = bayesian.NewClassifier(Good, Bad)
+	bayesClassifier.Classifier = bayesian.NewClassifier(classes...)
 
 	for _, entry := range *r.Entries {
 		if entry.Reputation == "" {
@@ -44,4 +64,15 @@ func GenerateBayesModel(r RSS) (*BayesClassifier, error) {
 		bayesClassifier.Classifier.Learn(*words, cl)
 	}
 	return &bayesClassifier, nil
+}
+
+// LoadBayesModel はファイルからモデルをロードします
+func LoadBayesModel(filename string) (*BayesClassifier, error) {
+	c, err := bayesian.NewClassifierFromFile(filename)
+	if err != nil {
+		return nil, err
+	}
+	bc := BayesClassifier{Classifier: c}
+
+	return &bc, nil
 }

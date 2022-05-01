@@ -6,8 +6,8 @@ import (
 	"log"
 )
 
-var RSSURL string
-var RSSJSON string
+var importRSSURL string
+var importRSSJSON string
 
 // importCmd represents the import command
 var importCmd = &cobra.Command{
@@ -17,28 +17,28 @@ var importCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		// URLをもとにRSSを生成
-		rss, err := rssfilter.Import(RSSURL)
+		rss, err := rssfilter.Import(importRSSURL)
 		if err != nil {
-			log.Fatal("failed to parse rss ", RSSURL, err)
+			log.Fatal("failed to parse rss ", importRSSURL, err)
 		}
 		// 保存
-		var storageJSON = rssfilter.StorageJSON{FileName: RSSJSON}
+		var storageJSON = rssfilter.StorageJSON{FileName: importRSSJSON}
 		err = storageJSON.StoreUnique(rss)
 		if err != nil {
-			log.Fatal("failed to save json ", RSSJSON, err)
+			log.Fatal("failed to save json ", importRSSJSON, err)
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(importCmd)
-	importCmd.Flags().StringVarP(&RSSURL, "url", "u", "", "URL for retrieve URL")
+	importCmd.Flags().StringVarP(&importRSSURL, "url", "u", "", "URL for retrieve URL")
 	err := importCmd.MarkFlagRequired("url")
 	if err != nil {
 		log.Fatal("specify url")
 	}
 
-	importCmd.Flags().StringVarP(&RSSJSON, "feed", "f", "", "feed JSON file name")
+	importCmd.Flags().StringVarP(&importRSSJSON, "feed", "f", "", "feed JSON file name")
 	err = importCmd.MarkFlagRequired("feed")
 	if err != nil {
 		log.Fatal("specify feed JSON file name")

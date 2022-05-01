@@ -16,6 +16,10 @@ func Test_merge(t *testing.T) {
 	item2 := RSSEntry{
 		Link: "https://url2",
 	}
+	item1New := RSSEntry{
+		Link:       "https://url1",
+		Reputation: "Good",
+	}
 	tests := []struct {
 		name string
 		args args
@@ -46,12 +50,20 @@ func Test_merge(t *testing.T) {
 			want: &[]RSSEntry{item1},
 		},
 		{
-			name: "重複するものがる",
+			name: "重複するものがある",
 			args: args{
 				rss1: &[]RSSEntry{item1},
 				rss2: &[]RSSEntry{item1, item2},
 			},
 			want: &[]RSSEntry{item1, item2},
+		},
+		{
+			name: "キー以外の変更があれば、上書きされる",
+			args: args{
+				rss1: &[]RSSEntry{item1},
+				rss2: &[]RSSEntry{item1New, item2},
+			},
+			want: &[]RSSEntry{item1New, item2},
 		},
 	}
 	for _, tt := range tests {

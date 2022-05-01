@@ -15,15 +15,25 @@ type RSS struct {
 	Entries *[]RSSEntry
 }
 
-// RSSEntry はRSSの特定の記事を示します
-type RSSEntry struct {
-	Title       string    `json:"title,omitempty"`
-	Description string    `json:"description,omitempty"`
-	Link        string    `json:"link"`
-	Published   time.Time `json:"published"`
-	Categories  []string  `json:"categories,omitempty"`
-	Retrieved   time.Time `json:"retrieved,omitempty"`
-	Reputation  string    `json:"reputation,omitempty"`
+// Classify は未分類の記事を分類します
+func (r RSS) Classify(classifier *BayesClassifier) error {
+	for i, entry := range *r.Entries {
+		if entry.Reputation != "" {
+			continue
+		}
+		_, words, err := entry.GenerateLearnData()
+		if err != nil {
+			return err
+		}
+		cl, err := classifier.Classify(words)
+		if err != nil {
+			return err
+		}
+		entry.Reputation = cl
+
+		(*r.Entries)[i].Reputation = cl
+	}
+	return nil
 }
 
 // Import は指定されたURLからRSSを生成します。
@@ -49,6 +59,17 @@ func Import(URL string) (*RSS, error) {
 	}
 	rss := RSS{&entries}
 	return &rss, nil
+}
+
+// RSSEntry はRSSの特定の記事を示します
+type RSSEntry struct {
+	Title       string    `json:"title,omitempty"`
+	Description string    `json:"description,omitempty"`
+	Link        string    `json:"link"`
+	Published   time.Time `json:"published"`
+	Categories  []string  `json:"categories,omitempty"`
+	Retrieved   time.Time `json:"retrieved,omitempty"`
+	Reputation  string    `json:"reputation,omitempty"`
 }
 
 // GenerateLearnData はRSSEntryから分類データを生成します。

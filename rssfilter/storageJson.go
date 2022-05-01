@@ -60,9 +60,10 @@ func merge(rss1, rss2 *[]RSSEntry) *[]RSSEntry {
 	mergedRss := rss1
 	for _, entry2 := range *rss2 {
 		found := false
-		for _, entry1 := range *rss1 {
+		for i1, entry1 := range *rss1 {
 			if entry2.Link == entry1.Link {
 				found = true
+				(*mergedRss)[i1] = entry2
 				break
 			}
 		}
