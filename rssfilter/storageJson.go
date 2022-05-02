@@ -42,7 +42,7 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(j.FileName, newJson, 0644)
+	err = ioutil.WriteFile(j.FileName, newJson, 0600)
 	if err != nil {
 		return err
 	}
