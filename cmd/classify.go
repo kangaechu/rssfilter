@@ -46,7 +46,6 @@ var classifyCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(classifyCmd)
-	rootCmd.AddCommand(learnCmd)
 	classifyCmd.Flags().StringVarP(&classifyRSSJSON, "feed", "f", "", "feed JSON file name")
 	err := classifyCmd.MarkFlagRequired("feed")
 	if err != nil {
