@@ -37,12 +37,12 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 	}
 
 	mergedRss := merge(oldRss.Entries, rss.Entries)
-	newJson, err := json.Marshal(mergedRss)
+	newJSON, err := json.Marshal(mergedRss)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(j.FileName, newJson, 0600)
+	err = ioutil.WriteFile(j.FileName, newJSON, 0600)
 	if err != nil {
 		return err
 	}
