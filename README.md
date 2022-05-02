@@ -13,7 +13,7 @@ Download from GitHub releases.
 Retrieve Hatena bookmark IT hot entries.
 
 ```bash
-rssfilter import -u "https://b.hatena.ne.jp/hotentry/it.rss" -f hot-it.json
+rssfilter fetch -u "https://b.hatena.ne.jp/hotentry/it.rss" -f hot-it.json
 ```
 
 ```shell
