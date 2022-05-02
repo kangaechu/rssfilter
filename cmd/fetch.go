@@ -1,9 +1,10 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/kangaechu/rssfilter/rssfilter"
 	"github.com/spf13/cobra"
-	"log"
 )
 
 var fetchRSSURL string
