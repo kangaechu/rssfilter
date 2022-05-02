@@ -38,8 +38,8 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 	return nil
 }
 
-// Import は指定されたURLからRSSを生成します。
-func Import(URL string) (*RSS, error) {
+// CreateRSSFromURL は指定されたURLからRSSを生成します。
+func CreateRSSFromURL(URL string) (*RSS, error) {
 	fp := gofeed.NewParser()
 	feeds, err := fp.ParseURL(URL)
 	if err != nil {
