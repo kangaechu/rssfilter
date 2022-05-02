@@ -28,9 +28,10 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 		}
 		cl, err := classifier.Classify(words)
 		if err != nil {
-			return err
+			entry.Reputation = "ERROR"
+		} else {
+			entry.Reputation = cl
 		}
-		entry.Reputation = cl
 
 		(*r.Entries)[i].Reputation = cl
 	}
