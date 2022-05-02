@@ -19,17 +19,17 @@ var learnCmd = &cobra.Command{
 		storageJSON := rssfilter.StorageJSON{FileName: learnRSSJSON}
 		rss, err := storageJSON.Load()
 		if err != nil {
-			log.Fatal("failed to load RSS JSON ", learnRSSJSON, err)
+			log.Fatal("failed to load RSS JSON. json:", learnRSSJSON, ", err: ", err)
 		}
 
 		model, err := rssfilter.GenerateBayesModel(*rss)
 		if err != nil {
-			log.Fatal("failed to generate model", err)
+			log.Fatal("failed to generate model. err: ", err)
 		}
 
 		err = model.Store(learnModel)
 		if err != nil {
-			log.Fatal("failed to store model", learnModel, err)
+			log.Fatal("failed to store model. model: ", learnModel, ", err: ", err)
 		}
 	},
 }
@@ -39,12 +39,12 @@ func init() {
 	learnCmd.Flags().StringVarP(&learnRSSJSON, "feed", "f", "", "feed JSON file name")
 	err := learnCmd.MarkFlagRequired("feed")
 	if err != nil {
-		log.Fatal("specify feed JSON file name")
+		log.Fatal("specify feed JSON file name. err: ", err)
 	}
 
 	learnCmd.Flags().StringVarP(&learnModel, "model", "m", "", "model file name")
 	err = learnCmd.MarkFlagRequired("model")
 	if err != nil {
-		log.Fatal("specify model file name")
+		log.Fatal("specify model file name. err: ", err)
 	}
 }

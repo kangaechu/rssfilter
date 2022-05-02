@@ -20,13 +20,13 @@ var importCmd = &cobra.Command{
 		// URLをもとにRSSを生成
 		rss, err := rssfilter.Import(importRSSURL)
 		if err != nil {
-			log.Fatal("failed to parse rss ", importRSSURL, err)
+			log.Fatal("failed to parse rss. URL: ", importRSSURL, ", err: ", err)
 		}
 		// 保存
 		var storageJSON = rssfilter.StorageJSON{FileName: importRSSJSON}
 		err = storageJSON.StoreUnique(rss)
 		if err != nil {
-			log.Fatal("failed to save json ", importRSSJSON, err)
+			log.Fatal("failed to save json. json: ", importRSSJSON, ", err: ", err)
 		}
 	},
 }
@@ -36,12 +36,12 @@ func init() {
 	importCmd.Flags().StringVarP(&importRSSURL, "url", "u", "", "URL for retrieve URL")
 	err := importCmd.MarkFlagRequired("url")
 	if err != nil {
-		log.Fatal("specify url")
+		log.Fatal("specify url. err: ", err)
 	}
 
 	importCmd.Flags().StringVarP(&importRSSJSON, "feed", "f", "", "feed JSON file name")
 	err = importCmd.MarkFlagRequired("feed")
 	if err != nil {
-		log.Fatal("specify feed JSON file name")
+		log.Fatal("specify feed JSON file name. err: ", err)
 	}
 }
