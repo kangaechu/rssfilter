@@ -2,12 +2,13 @@ package rssfilter
 
 import (
 	"fmt"
+	"net/url"
+	"time"
+
 	"github.com/ikawaha/kagome-dict/ipa"
 	"github.com/ikawaha/kagome/v2/filter"
 	"github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/mmcdole/gofeed"
-	"net/url"
-	"time"
 )
 
 // RSS はRSS全体を示します

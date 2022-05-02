@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"github.com/kangaechu/rssfilter/rssfilter"
 	"log"
+
+	"github.com/kangaechu/rssfilter/rssfilter"
 
 	"github.com/spf13/cobra"
 )
