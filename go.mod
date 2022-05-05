@@ -6,6 +6,8 @@ require (
 	github.com/PuerkitoBio/goquery v1.5.1 // indirect
 	github.com/andybalholm/cascadia v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/gorilla/feeds v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/ikawaha/kagome-dict v1.0.4 // indirect
 	github.com/ikawaha/kagome-dict/ipa v1.0.4 // indirect

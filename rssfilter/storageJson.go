@@ -21,7 +21,7 @@ func (j StorageJSON) Load() (*RSS, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = json.Unmarshal(oldRssText, &rss.Entries)
+		err = json.Unmarshal(oldRssText, &rss)
 		if err != nil {
 			return nil, err
 		}
@@ -35,8 +35,10 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 	if err != nil {
 		return err
 	}
+	var mergedRss RSS
+	mergedRss.Title = rss.Title
 
-	mergedRss := merge(oldRss.Entries, rss.Entries)
+	mergedRss.Entries = merge(oldRss.Entries, rss.Entries)
 	newJSON, err := json.Marshal(mergedRss)
 	if err != nil {
 		return err
