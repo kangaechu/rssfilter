@@ -2,9 +2,10 @@ package rssfilter
 
 import (
 	"fmt"
-	"github.com/gorilla/feeds"
 	"net/url"
 	"time"
+
+	"github.com/gorilla/feeds"
 
 	"github.com/ikawaha/kagome-dict/ipa"
 	"github.com/ikawaha/kagome/v2/filter"
@@ -57,11 +58,11 @@ func (r RSS) GenerateRss() (*string, error) {
 		}
 		rssFeed.Add(&item)
 	}
-	rssXml, err := rssFeed.ToRss()
+	rssXML, err := rssFeed.ToRss()
 	if err != nil {
 		return nil, err
 	}
-	return &rssXml, nil
+	return &rssXML, nil
 }
 
 // CreateRSSFromURL は指定されたURLからRSSを生成します。

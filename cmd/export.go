@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"github.com/kangaechu/rssfilter/rssfilter"
 	"io/ioutil"
 	"log"
+
+	"github.com/kangaechu/rssfilter/rssfilter"
 
 	"github.com/spf13/cobra"
 )
@@ -25,13 +26,13 @@ var exportCmd = &cobra.Command{
 		}
 
 		// generate RSS
-		rssXml, err := rss.GenerateRss()
+		rssXML, err := rss.GenerateRss()
 		if err != nil {
 			log.Fatal("failed to generate RSS. err: ", err)
 		}
 
 		// store RSS
-		err = ioutil.WriteFile(exportRSSXML, []byte(*rssXml), 0600)
+		err = ioutil.WriteFile(exportRSSXML, []byte(*rssXML), 0600)
 		if err != nil {
 			log.Fatal("failed to save RSS. err: ", err)
 		}
