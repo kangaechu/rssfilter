@@ -5,6 +5,8 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/gorilla/feeds"
+
 	"github.com/ikawaha/kagome-dict/ipa"
 	"github.com/ikawaha/kagome/v2/filter"
 	"github.com/ikawaha/kagome/v2/tokenizer"
@@ -13,7 +15,8 @@ import (
 
 // RSS はRSS全体を示します
 type RSS struct {
-	Entries *[]RSSEntry
+	Title   string      `json:"title,omitempty"`
+	Entries *[]RSSEntry `json:"entries,omitempty"`
 }
 
 // Classify は未分類の記事を分類します
@@ -38,16 +41,40 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 	return nil
 }
 
+// GenerateRss generates RSS XML
+func (r RSS) GenerateRss() (*string, error) {
+	rssFeed := &feeds.Feed{
+		Title:   r.Title,
+		Link:    &feeds.Link{Href: "https://example.com/test"},
+		Updated: time.Time{},
+		Created: time.Time{},
+	}
+	for _, entry := range *r.Entries {
+		item := feeds.Item{
+			Title:       entry.Title,
+			Link:        &feeds.Link{Href: entry.Link},
+			Description: entry.Description,
+			Created:     entry.Published,
+		}
+		rssFeed.Add(&item)
+	}
+	rssXML, err := rssFeed.ToRss()
+	if err != nil {
+		return nil, err
+	}
+	return &rssXML, nil
+}
+
 // CreateRSSFromURL は指定されたURLからRSSを生成します。
 func CreateRSSFromURL(URL string) (*RSS, error) {
 	fp := gofeed.NewParser()
-	feeds, err := fp.ParseURL(URL)
+	rssfeeds, err := fp.ParseURL(URL)
 	if err != nil {
 		return nil, err
 	}
 	var entries []RSSEntry
 	retrieved := time.Now()
-	for _, item := range feeds.Items {
+	for _, item := range rssfeeds.Items {
 		published, _ := time.Parse(time.RFC3339, item.Published)
 		var entry = RSSEntry{
 			Title:       item.Title,
@@ -59,7 +86,7 @@ func CreateRSSFromURL(URL string) (*RSS, error) {
 		}
 		entries = append(entries, entry)
 	}
-	rss := RSS{&entries}
+	rss := RSS{Title: rssfeeds.Title, Entries: &entries}
 	return &rss, nil
 }
 

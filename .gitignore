@@ -33,3 +33,4 @@ go.work
 
 *.json
 *.model
+*.xml
