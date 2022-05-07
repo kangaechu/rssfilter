@@ -3,6 +3,7 @@ package rssfilter
 import (
 	"fmt"
 	"net/url"
+	"regexp"
 	"time"
 
 	"github.com/gorilla/feeds"
@@ -109,11 +110,19 @@ func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
 	if err != nil {
 		return "", nil, err
 	}
-	posFilter := filter.NewPOSFilter([]filter.POS{{"名詞"}, {"形容詞"}}...)
+	posFilter := filter.NewPOSFilter([]filter.POS{{"名詞"}}...)
 	// Title
 	tokens := t.Tokenize(e.Title)
 	posFilter.Keep(&tokens)
+
+	ignoreCharacter := regexp.MustCompile(`^[\d./:,-]+$`)
 	for _, token := range tokens {
+		if len([]rune(token.Surface)) < 3 {
+			continue
+		}
+		if ignoreCharacter.MatchString(token.Surface) {
+			continue
+		}
 		words = append(words, token.Surface)
 	}
 
@@ -121,6 +130,12 @@ func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
 	tokens = t.Tokenize(e.Description)
 	posFilter.Keep(&tokens)
 	for _, token := range tokens {
+		if len([]rune(token.Surface)) < 3 {
+			continue
+		}
+		if ignoreCharacter.MatchString(token.Surface) {
+			continue
+		}
 		words = append(words, token.Surface)
 	}
 
@@ -129,7 +144,7 @@ func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
 	if err != nil {
 		fmt.Println("error while parsing URL: ", e.Link, err)
 	} else {
-		words = append(words, parsedURL.Host)
+		words = append(words, "domain:"+parsedURL.Host)
 	}
 
 	// タグ
