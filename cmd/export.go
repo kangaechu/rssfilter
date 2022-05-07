@@ -41,8 +41,6 @@ var exportCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(exportCmd)
-
-	rootCmd.AddCommand(exportCmd)
 	exportCmd.Flags().StringVarP(&exportRSSJSON, "feed", "f", "", "feed JSON file name")
 	err := exportCmd.MarkFlagRequired("feed")
 	if err != nil {
