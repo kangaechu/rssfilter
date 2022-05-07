@@ -1,6 +1,8 @@
 package rssfilter
 
 import (
+	"sort"
+
 	"github.com/navossoc/bayesian"
 )
 
@@ -16,6 +18,7 @@ const (
 )
 
 var classes = []bayesian.Class{Good, Bad}
+var classesStr = []string{"Good", "Bad"}
 
 // Store はナイーブベイズのモデルを保存します
 func (b BayesClassifier) Store(filename string) error {
@@ -40,6 +43,37 @@ func (b BayesClassifier) Classify(words *[]string) (string, error) {
 		cl = "Undefined"
 	}
 	return cl, nil
+}
+
+// BayesStatus stores the result of learned status
+type BayesStatus struct {
+	LearnedCount   int            `json:"learned_count,omitempty"`
+	WordsByClasses []WordsByClass `json:"words_by_classes,omitempty"`
+}
+
+// WordsByClass stores class name and list of scores words.
+type WordsByClass struct {
+	ClassName  string      `json:"class_name,omitempty"`
+	WordScores []WordScore `json:"word_scores,omitempty"`
+}
+
+// WordScore stores set of word and score
+type WordScore struct {
+	Word  string  `json:"word,omitempty"`
+	Score float64 `json:"score,omitempty"`
+}
+
+// Status returns the result of learned status
+func (b BayesClassifier) Status() *BayesStatus {
+	var bayesStatus BayesStatus
+	bayesStatus.LearnedCount = b.Classifier.Learned()
+	for i, class := range classes {
+		freq := b.Classifier.WordsByClass(class)
+		words := sortWordsByScore(&freq)
+		bayesStatus.WordsByClasses = append(bayesStatus.WordsByClasses, WordsByClass{
+			ClassName: classesStr[i], WordScores: (*words)[0:30]})
+	}
+	return &bayesStatus
 }
 
 // GenerateBayesModel はRSSからナイーブベイズのモデルを生成します。
@@ -75,4 +109,16 @@ func LoadBayesModel(filename string) (*BayesClassifier, error) {
 	bc := BayesClassifier{Classifier: c}
 
 	return &bc, nil
+}
+
+// sortWordsByScore returns WordScore that is sorted by score desc.
+func sortWordsByScore(freqMap *map[string]float64) *[]WordScore {
+	words := make([]WordScore, 0, len(*freqMap))
+	for k, v := range *freqMap {
+		words = append(words, WordScore{Word: k, Score: v})
+	}
+	sort.Slice(words, func(i, j int) bool {
+		return words[i].Score > words[j].Score
+	})
+	return &words
 }
