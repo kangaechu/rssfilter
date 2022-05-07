@@ -52,3 +52,48 @@ func TestRSSEntry_GenerateModel(t *testing.T) {
 		})
 	}
 }
+
+func TestRSSEntry_GenerateLearnData(t *testing.T) {
+	tests := []struct {
+		name      string
+		fields    RSSEntry
+		wantClass string
+		wantWords *[]string
+		wantErr   bool
+	}{
+		{
+			name: "通常ケース",
+			fields: RSSEntry{
+				Title:       "2022年5月末に利用できなくなる「ID/パスワードのみのGoogleアカウントへのログイン」とは何か",
+				Description: "これは何かという話です。 いきなりまとめ Googleへのログインの話 ではない カレンダーやメールなど古からのプロトコルでは パスワード認証を前提としたものがある それが OAuthに置き換わる 感じ PIM系プロトコルとパスワード認証(認可？) このネタどこかに書いた気がするな...ってので振り返ると、メールについてこの...",
+				Link:        "https://zenn.dev/ritou/articles/170b2ef9acbe59",
+				Categories:  []string{"テクノロジー", "OAuth", "google", "あとで読む", "セキュリティ", "security", "重要"},
+				Reputation:  "Good",
+			},
+			wantClass: "Good",
+			wantWords: &[]string{"月末", "利用", "ID", "パスワード", "Google", "アカウント", "ログイン", "これ", "カレンダー", "メール", "プロトコル", "認証", "前提", "もの", "それ", "OAuth", "感じ", "PIM", "認可", "？)", "ネタ", "どこ", "domain:zenn.dev", "category:テクノロジー", "category:OAuth", "category:google", "category:あとで読む", "category:セキュリティ", "category:security", "category:重要"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := RSSEntry{
+				Title:       tt.fields.Title,
+				Description: tt.fields.Description,
+				Link:        tt.fields.Link,
+				Categories:  tt.fields.Categories,
+				Reputation:  tt.fields.Reputation,
+			}
+			gotClass, gotWords, err := e.GenerateLearnData()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GenerateLearnData() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotClass != tt.wantClass {
+				t.Errorf("GenerateLearnData() gotClass = %v, wantClass %v", gotClass, tt.wantClass)
+			}
+			if !reflect.DeepEqual(gotWords, tt.wantWords) {
+				t.Errorf("GenerateLearnData() gotWords = %v, wantClass %v", gotWords, tt.wantWords)
+			}
+		})
+	}
+}
