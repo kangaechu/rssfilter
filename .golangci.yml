@@ -5,8 +5,8 @@ linters:
     - errcheck
     - goimports
     - gosec
-    - gosimple
+#    - gosimple
     - govet
     - ineffassign
     - revive
-    - staticcheck
+#    - staticcheck
