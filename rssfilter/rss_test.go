@@ -23,7 +23,7 @@ func TestRSSEntry_GenerateModel(t *testing.T) {
 				Reputation:  "Good",
 			},
 			className: "Good",
-			words:     &[]string{"メロス", "激怒", "邪智", "暴虐", "王", "決意", "政治", "村", "牧人", "笛", "羊", "邪悪", "人一倍", "敏感", "www.aozora.gr.jp", "category:青空文庫", "category:王様"},
+			words:     &[]string{"メロス", "激怒", "邪智", "暴虐", "決意", "政治", "牧人", "邪悪", "人一倍", "敏感", "domain:www.aozora.gr.jp", "category:青空文庫", "category:王様"},
 			wantErr:   false,
 		},
 	}

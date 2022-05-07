@@ -117,7 +117,7 @@ func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
 
 	ignoreCharacter := regexp.MustCompile(`^[\d./:,-]+$`)
 	for _, token := range tokens {
-		if len([]rune(token.Surface)) < 3 {
+		if len([]rune(token.Surface)) < 2 {
 			continue
 		}
 		if ignoreCharacter.MatchString(token.Surface) {
@@ -130,7 +130,7 @@ func (e RSSEntry) GenerateLearnData() (string, *[]string, error) {
 	tokens = t.Tokenize(e.Description)
 	posFilter.Keep(&tokens)
 	for _, token := range tokens {
-		if len([]rune(token.Surface)) < 3 {
+		if len([]rune(token.Surface)) < 2 {
 			continue
 		}
 		if ignoreCharacter.MatchString(token.Surface) {
