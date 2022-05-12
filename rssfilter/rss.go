@@ -51,6 +51,9 @@ func (r RSS) GenerateRss() (*string, error) {
 		Created: time.Time{},
 	}
 	for _, entry := range *r.Entries {
+		if entry.Reputation != "Good" {
+			continue
+		}
 		item := feeds.Item{
 			Title:       entry.Title,
 			Link:        &feeds.Link{Href: entry.Link},
