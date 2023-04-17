@@ -43,10 +43,10 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 }
 
 // GenerateRss generates RSS XML
-func (r RSS) GenerateRss() (*string, error) {
+func (r RSS) GenerateRss(url string) (*string, error) {
 	rssFeed := &feeds.Feed{
 		Title:   r.Title,
-		Link:    &feeds.Link{Href: "https://example.com/test"},
+		Link:    &feeds.Link{Href: url},
 		Updated: time.Time{},
 		Created: time.Time{},
 	}

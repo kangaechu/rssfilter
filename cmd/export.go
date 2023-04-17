@@ -11,6 +11,7 @@ import (
 
 var exportRSSJSON string
 var exportRSSXML string
+var exportRSSURL string
 
 // exportCmd represents the export command
 var exportCmd = &cobra.Command{
@@ -26,7 +27,7 @@ var exportCmd = &cobra.Command{
 		}
 
 		// generate RSS
-		rssXML, err := rss.GenerateRss()
+		rssXML, err := rss.GenerateRss(exportRSSURL)
 		if err != nil {
 			log.Fatal("failed to generate RSS. err: ", err)
 		}
@@ -52,4 +53,6 @@ func init() {
 	if err != nil {
 		log.Fatal("specify RSS xml file name. err: ", err)
 	}
+
+	exportCmd.Flags().StringVarP(&exportRSSURL, "url", "u", "https://example.com/rss.xml", "RSS URL Link")
 }

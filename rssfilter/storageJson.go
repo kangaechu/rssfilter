@@ -14,8 +14,7 @@ type StorageJSON struct {
 // Load は保存済みのファイルをロードします
 func (j StorageJSON) Load() (*RSS, error) {
 	var rss RSS
-	if f, err := os.Stat(j.FileName); os.IsNotExist(err) || f.IsDir() {
-	} else {
+	if f, err := os.Stat(j.FileName); os.IsExist(err) && !f.IsDir() {
 		// ファイルが存在するときは読み込む
 		oldRssText, err := ioutil.ReadFile(j.FileName)
 		if err != nil {
