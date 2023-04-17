@@ -2,7 +2,6 @@ package rssfilter
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 )
 
@@ -40,7 +39,7 @@ func (j StorageJSON) StoreUnique(rss *RSS) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(j.FileName, newJSON, 0600)
+	err = os.WriteFile(j.FileName, newJSON, 0600)
 	if err != nil {
 		return err
 	}
