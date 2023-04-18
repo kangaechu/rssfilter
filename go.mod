@@ -4,8 +4,8 @@ go 1.20
 
 require (
 	github.com/gorilla/feeds v1.1.1
-	github.com/ikawaha/kagome-dict/ipa v1.0.4
-	github.com/ikawaha/kagome/v2 v2.7.0
+	github.com/ikawaha/kagome-dict/ipa v1.0.10
+	github.com/ikawaha/kagome/v2 v2.9.2
 	github.com/mmcdole/gofeed v1.1.3
 	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24
 	github.com/spf13/cobra v1.4.0
@@ -17,7 +17,7 @@ require (
 	github.com/andybalholm/cascadia v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/ikawaha/kagome-dict v1.0.4 // indirect
+	github.com/ikawaha/kagome-dict v1.0.9 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
