@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/gorilla/feeds v1.1.2
 	github.com/ikawaha/kagome-dict/ipa v1.0.10
-	github.com/ikawaha/kagome/v2 v2.9.4
+	github.com/ikawaha/kagome/v2 v2.9.5
 	github.com/mmcdole/gofeed v1.2.1
 	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24
 	github.com/spf13/cobra v1.8.0
