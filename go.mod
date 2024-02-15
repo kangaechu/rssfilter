@@ -1,6 +1,6 @@
 module github.com/kangaechu/rssfilter
 
-go 1.20
+go 1.22
 
 require (
 	github.com/gorilla/feeds v1.1.2
