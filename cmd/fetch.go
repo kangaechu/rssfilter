@@ -15,7 +15,7 @@ var fetchCmd = &cobra.Command{
 	Use:   "fetch",
 	Short: "Retrieve RSS and store",
 	Long:  `Retrieve RSS and store`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 
 		// URLをもとにRSSを生成
 		rss, err := rssfilter.CreateRSSFromURL(fetchRSSURL)

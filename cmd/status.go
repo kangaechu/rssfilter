@@ -17,7 +17,7 @@ var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "status of model",
 	Long:  `status of model`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		// load model
 		bayesClassifier, err := rssfilter.LoadBayesModel(statusModel)
 		if err != nil {
