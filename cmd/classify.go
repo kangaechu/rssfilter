@@ -16,7 +16,7 @@ var classifyCmd = &cobra.Command{
 	Use:   "classify",
 	Short: "classify unclassified items",
 	Long:  `classify unclassified items`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		// JSONを読み込む
 		storageJSON := rssfilter.StorageJSON{FileName: classifyRSSJSON}
 		rss, err := storageJSON.Load()

@@ -18,7 +18,7 @@ var exportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "export to RSS file",
 	Long:  `export to RSS file`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		// Open feed JSON
 		storageJSON := rssfilter.StorageJSON{FileName: exportRSSJSON}
 		rss, err := storageJSON.Load()

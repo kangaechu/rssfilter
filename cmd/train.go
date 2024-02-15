@@ -15,7 +15,7 @@ var trainCmd = &cobra.Command{
 	Use:   "train",
 	Short: "train classifier",
 	Long:  `train classifier`,
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		storageJSON := rssfilter.StorageJSON{FileName: trainRSSJSON}
 		rss, err := storageJSON.Load()
 		if err != nil {
