@@ -31,6 +31,8 @@ go.work
 
 # End of https://www.toptal.com/developers/gitignore/api/go
 
-*.json
-*.model
+data/*.json
+data/*.model
 *.xml
+
+.env

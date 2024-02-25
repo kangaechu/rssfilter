@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./public:/app/public
+    environment:
+      - SYNC_CLOUD_STORAGE
+      - RSS_URL
+      - RCLONE_DESTINATION
+      - RCLONE_CONFIG
