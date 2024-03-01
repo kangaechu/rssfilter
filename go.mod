@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/feeds v1.1.2
 	github.com/ikawaha/kagome-dict/ipa v1.0.10
 	github.com/ikawaha/kagome/v2 v2.9.5
-	github.com/mmcdole/gofeed v1.2.1
+	github.com/mmcdole/gofeed v1.3.0
 	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
@@ -22,7 +22,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/mmcdole/goxpp v1.1.0 // indirect
+	github.com/mmcdole/goxpp v1.1.1-0.20240225020742-a0c311522b23 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
