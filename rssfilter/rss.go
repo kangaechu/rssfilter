@@ -43,7 +43,9 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 }
 
 // GenerateRss generates RSS XML
-func (r RSS) GenerateRss(url string) (*string, error) {
+// URL: URL of the RSS
+// publishPeriod: Period to publish
+func (r RSS) GenerateRss(url string, publishAfter time.Time) (*string, error) {
 	rssFeed := &feeds.Feed{
 		Title:   r.Title,
 		Link:    &feeds.Link{Href: url},
@@ -52,6 +54,9 @@ func (r RSS) GenerateRss(url string) (*string, error) {
 	}
 	for _, entry := range *r.Entries {
 		if entry.Reputation != "Good" {
+			continue
+		}
+		if entry.Published.Before(publishAfter) {
 			continue
 		}
 		item := feeds.Item{
