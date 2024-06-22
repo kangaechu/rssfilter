@@ -3,12 +3,12 @@ module github.com/kangaechu/rssfilter
 go 1.22
 
 require (
-	github.com/gorilla/feeds v1.1.2
-	github.com/ikawaha/kagome-dict/ipa v1.0.11
-	github.com/ikawaha/kagome/v2 v2.9.8
+	github.com/gorilla/feeds v1.2.0
+	github.com/ikawaha/kagome-dict/ipa v1.2.0
+	github.com/ikawaha/kagome/v2 v2.9.11
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/navossoc/bayesian v0.0.0-20171203014413-18fc5ea11e24
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/ikawaha/kagome-dict v1.0.10 // indirect
+	github.com/ikawaha/kagome-dict v1.1.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -38,7 +38,7 @@ require (
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
-	golang.org/x/text v0.15.0 // indirect
+	golang.org/x/text v0.16.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
