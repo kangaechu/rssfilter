@@ -2,7 +2,7 @@ FROM busybox:1.36-uclibc as busybox
 
 FROM rclone/rclone:1 as rclone
 
-FROM golang:1.22-bookworm AS build
+FROM golang:1.23-bookworm AS build
 
 WORKDIR /app
 COPY go.mod go.sum ./
