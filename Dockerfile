@@ -1,4 +1,4 @@
-FROM busybox:1.36-uclibc as busybox
+FROM busybox:1.37-uclibc as busybox
 
 FROM rclone/rclone:1 as rclone
 
