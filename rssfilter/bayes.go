@@ -1,3 +1,4 @@
+// Package rssfilter provides RSS feed filtering and classification functionality.
 package rssfilter
 
 import (
@@ -29,17 +30,19 @@ func (b BayesClassifier) Store(filename string) error {
 	return nil
 }
 
+// Classify classifies the given words into Good or Bad category using naive Bayes.
 func (b BayesClassifier) Classify(words *[]string) (string, error) {
 	_, inx, _, err := b.Classifier.SafeProbScores(*words)
 	if err != nil {
 		return "", err
 	}
 	var cl string
-	if inx == 0 {
+	switch inx {
+	case 0:
 		cl = "Good"
-	} else if inx == 1 {
+	case 1:
 		cl = "Bad"
-	} else {
+	default:
 		cl = "Undefined"
 	}
 	return cl, nil

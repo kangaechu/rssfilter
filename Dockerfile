@@ -2,7 +2,9 @@ FROM busybox:1.37-uclibc as busybox
 
 FROM rclone/rclone:1 as rclone
 
-FROM golang:1.23-bookworm AS build
+FROM golang:trixie AS build
+
+ENV GOTOOLCHAIN=auto
 
 WORKDIR /app
 COPY go.mod go.sum ./
@@ -14,7 +16,7 @@ COPY cmd/ ./cmd
 RUN go build -o /app/main -ldflags '-s -w' main.go
 
 
-FROM gcr.io/distroless/base-debian12
+FROM gcr.io/distroless/base-debian13
 
 COPY --from=busybox /bin/busybox /bin/busybox
 RUN ["/bin/busybox", "--install", "/bin"]
