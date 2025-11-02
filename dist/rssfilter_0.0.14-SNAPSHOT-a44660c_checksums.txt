@@ -1,3 +1,0 @@
-2b3a5a5ddc590687adf20ff8c4a3c970f4eedd81af47c4dc481e6a094ba97f82  rssfilter_0.0.14-SNAPSHOT-a44660c_darwin_amd64.tar.gz
-62ba8c9104165a90cb552017dd68d0a1aab9580887b79313c55742b90c59521c  rssfilter_0.0.14-SNAPSHOT-a44660c_linux_amd64.tar.gz
-db5aa6f928b4658fd444bd501082c0c6dfe6013e3fa94f0b82698401191a9ca3  rssfilter_0.0.14-SNAPSHOT-a44660c_linux_armv7.tar.gz
