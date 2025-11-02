@@ -1,7 +1,6 @@
 # https://golangci-lint.run/usage/configuration/
 version: "2"
 linters:
-  disable-all: true
   enable:
     - errcheck
     - gosec
