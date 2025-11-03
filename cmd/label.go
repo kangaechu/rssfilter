@@ -208,7 +208,9 @@ func readSingleChar() (byte, error) {
 	if err != nil {
 		return 0, err
 	}
-	defer term.Restore(fd, oldState)
+	defer func() {
+		_ = term.Restore(fd, oldState)
+	}()
 
 	// Read a single byte
 	b := make([]byte, 1)
