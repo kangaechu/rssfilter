@@ -38,6 +38,7 @@ func (r RSS) Classify(classifier *BayesClassifier) error {
 		}
 
 		(*r.Entries)[i].Reputation = cl
+		(*r.Entries)[i].LabeledBy = "auto"
 	}
 	return nil
 }
@@ -108,6 +109,7 @@ type RSSEntry struct {
 	Categories  []string  `json:"categories,omitempty"`
 	Retrieved   time.Time `json:"retrieved,omitempty"`
 	Reputation  string    `json:"reputation,omitempty"`
+	LabeledBy   string    `json:"labeledBy,omitempty"`
 }
 
 // GenerateLearnData はRSSEntryから分類データを生成します。
