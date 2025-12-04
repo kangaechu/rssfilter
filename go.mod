@@ -9,7 +9,7 @@ require (
 	github.com/ikawaha/kagome/v2 v2.10.2
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/navossoc/bayesian v0.0.0-20230423142728-ab66f8feaf97
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	golang.org/x/term v0.37.0
 )
